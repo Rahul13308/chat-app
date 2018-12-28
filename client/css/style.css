@@ -1,0 +1,209 @@
+body{
+	overflow-x: hidden;
+}
+
+/* Auth page CSS starts */
+.auth-page{
+	background: #ffffff;
+	height: 100%;
+}
+
+.auth-container {
+	padding-top: 5%;
+	width: 50%;
+	margin: auto;
+}
+.auth{
+	width: 400px;
+	margin: auto;
+	padding: 5%;
+	border-radius: 5px;
+	border: solid 1px #0000003d;
+}
+
+.auth-header-btn{
+	width: 49%;
+}
+
+.login,
+.register {
+	padding: 1.5%;
+}
+/* Auth page CSS ends */
+
+/* Home page CSS starts */
+.home-header {
+	width: 100%;
+	padding: 1% 1% 1% 1%;
+	background: #007bff;
+	margin-bottom: 20px;
+	color: #ffffff;
+}
+
+.home-body {
+	width: 100%;
+	height:85%;
+}
+
+.logout-user{
+	float: right;
+	margin-top: -2%;
+	cursor: pointer;
+}
+
+.message-container{
+	padding: 20px 0px 20px 20px;
+	background-color: rgba(255, 255, 255, 0.80);
+	margin: 10px 0px 10px 10px;
+	border-radius: 5px;
+}
+
+.message-thread {
+	overflow-y: scroll;
+	list-style-type: none;
+	height: 400px;
+	width: 100%;
+	border: solid 1px #BDBDBD;
+	margin: 0px !important;
+	padding: 5px !important;
+}
+
+.message-thread li {
+	max-width: 300px;
+	border-color: solid 0.5px rgba(0, 0, 0, 0.32);
+	clear: both;
+	text-decoration: none;
+	list-style-type: none;
+	margin: 0px 10px 0px 20px;
+	float: left;
+	margin-right: 20px;
+	padding: 25px 34px;
+	min-width: 160px;
+	min-height: 10px;
+	max-width: 350px;
+	background-color: rgba(255, 255, 255, 0.80);
+	line-height: 1.4;
+	word-wrap: break-word;
+	color: #444444;
+	text-align: left;
+}
+
+.align-left {
+	float: left !important;;
+}
+.align-right {
+	float: right !important;;
+}
+
+.message-text{
+	margin-top: 1%;
+}
+
+
+.chat-list-container {
+	padding: 20px 20px 20px 0px;
+}
+
+.chat-list-heading {
+	margin: 10px 10px 10px 0px;
+}
+
+.chat-list{
+	overflow-y: scroll;
+	height: 250px;
+	width: 100%;
+	margin: 10px 10px 10px 0px;
+	padding-right: 20px;
+}
+
+.chat-list li{
+	cursor: pointer;
+}
+
+
+.group-list-heading {
+	margin: 10px 10px 10px 0px;
+}
+
+.group-list{
+	overflow-y: scroll;
+	width: 100%;
+	margin: 10px 10px 10px 0px;
+	padding-right: 20px;
+}
+
+.group-list li{
+	cursor: pointer;
+}
+.drop-box {
+   /* background: #F8F8F8;
+    border: 5px dashed #DDD;*/
+    height: 65px;
+    text-align: center;
+    padding-top: 25px;
+    margin: 10px;
+}
+.dragover {
+    border: 5px dashed blue;
+}
+a.nav-link.ng-binding {
+    display: none;
+}
+.side_buttons.btn {
+    padding: .375rem 7px; 
+}
+.message-thread p.g_msg {
+    border: 1px solid #007bff;
+    padding: 15px 11px 15px 11px;
+    border-radius: 15px;
+    margin: 10px 0 0 0;
+}
+.message-thread span.sender_name {
+    color: #007bff;
+}
+.multiselect-container > li > a > label > input[type="checkbox"] {
+    margin-top: 3px;
+}
+.g_msgAttach {
+    background-color: #f1f1f1;
+    /* border: 1px solid; */
+    height: auto;
+    padding: 12px 22px 26px 20px;
+   border-radius: 18px 18px 0px 18px;
+    width: 200Px;
+}
+.g_msgAttach a {
+    display: block;
+    padding: 20px;
+}
+.g_msgAttach span.attachment_name{
+    display: block;
+    border-bottom: 1px solid #fff;
+}
+.g_msgAttach i.fa.fa-file {
+    padding: 4px 7px 9px 0px;
+}
+.groupActivities{
+    background-color: #007bff;
+    border-radius: 2px;
+    padding: 3px 9px 8px 9px;
+    color: #ffffff;
+    cursor: pointer;
+	margin: 2px 2px 2px 2px;
+}
+.leftRoom{
+    text-align: center!important;
+    display: table;
+    float: none!important;
+    margin: auto!important;
+
+}
+.leftRoom p.g_msg{
+    font-size: 12px;
+}
+.modal-backdrop{
+	 background-color: #00000082!important;
+	 }
+.modal.bs-example-modal-lg.in {
+    margin-top: 80px;
+}

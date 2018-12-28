@@ -1,0 +1,284 @@
+<div class="home-page">
+   <!-- Home page header starts -->
+   <div class="home-header">
+      <p class="welcome-user">Welcome {{ data.username }}</p>
+      <span class="logout-user" ng-click="logout()">
+      <i class="fa fa-power-off" aria-hidden="true"></i>
+      </span>        
+   </div>
+   <!-- Home page header ends -->
+   <!-- Home page body start -->
+   <div class="home-body">
+      <div class="row">
+         <!-- Message Area Markup starts -->
+        <div class="col-md-8">
+            <div class="message-container">
+               <p ng-if="data.selectedFriendId === null && data.selectedGroupId === null && data.selectedContactId === null? true : false" ng-show="data.selectedFriendId === null && data.selectedGroupId ===null&& data.selectedContactId === null">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span class="message-heading">Start Chatting..</span>
+               </p>
+               <p ng-if="data.selectedFriendId !== null ? true : false" ng-show="data.selectedFriendId !== null" >
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span class="message-heading"> Chat History With {{data.selectedFriendName}}</span>
+               </p>
+			   <div ng-if="data.selectedGroupId !== null ? true : false" ng-show="data.selectedGroupId !== null">
+               <p>
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span class="message-heading"> Chat History With {{data.selectedGroupName}}</span>
+				   <span class="groupActivities" focus-index="1" target="#myModal" data-toggle="modal" focus-element="autofocus" data-target=".bs-example-modal-lg" ng-click="getGroupUsers();">Add users<i class="fa fa-edit" aria-hidden="true"></i> </span>
+				   <span class="groupActivities"  ng-click="leaveFromGroup(data.selectedGroupId)" ng-if="data.selectedGroupId !== null ? true : false" ng-show="data.selectedGroupId !== null">Leave Group<i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></span>
+		
+		<div class="modal bs-example-modal-lg"  focus-group focus-group-head="loop" focus-group-tail="loop" focus-stacktabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+			  <h4 class="modal-title" id="myModalLabel">{{data.selectedGroupName}}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="add_group">
+							<div class="form-group">
+							   <label for="groupname">Group Name</label>
+							   <input type="username" 
+								  class="form-control" 
+								  id="groupname" 
+								  placeholder="Enter Group Name"
+								  value="{{data.selectedGroupName}}"
+								  >
+							</div>
+							<div class="form-group">
+							   <label for="username">Select Users to add</label>
+							   <select  class="custom-select" 
+							   ng-model="data.addSelectedUsers" 
+							   id='addUsersGroup' multiple>
+								  <option ng-repeat="contacts in data.contactlist"
+								  value="{{contacts.id}}" ngSelected ="
+								  {{data.selectedGroupUsers}}"
+								  ng-selected="contacts.id === 1"> {{contacts.username }} 
+								  {{data.selectedGroupUsers}}
+								  </option>
+							   </select>
+							   <select multiple class="form-control" 
+								data-ng-model="user.roles" 
+								data-ng-options="role.name for role in roles" 
+								required=""></select>
+							   
+							   
+							</div>
+							<button class="btn btn-primary" ng-click="addUsersInGroup(data.selectedGroupId)">Add
+							</button>
+						</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" focus-element="autofocus" data-dismiss="modal">Close</button>
+			  </div>
+			</div>
+		  </div>
+		  </div>
+		
+      
+				
+				  
+               </p>
+			   </div>
+               <p ng-if="data.selectedContactId !== null ? true : false" ng-show="data.selectedContactId !== null">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span class="message-heading"> Chat History With {{data.selectedContactName}}</span>
+               </p>
+               <div class="message-list">
+                  <ul class="message-thread" ng-if="data.selectedFriendId === null && data.selectedGroupId === null && data.selectedContactId === null? true : false" ng-show="data.selectedFriendId === null && data.selectedGroupId ===null && data.selectedContactId === null">
+                     <li >
+                        Select a user/group to chat
+                     </li>
+                  </ul>
+                  <ul class="message-thread" ng-if="data.selectedFriendId !== null ? true : false" ng-show="data.selectedFriendId !== null" >
+                     <li ng-repeat="messagePacket in data.messages"
+                        ng-class="{ 'align-right' : alignMessage(messagePacket.fromUserId) } ">
+                        <p class="g_msg" ng-if="messagePacket.type==='text'">{{messagePacket.message}}</p>
+                        <div class="g_msgAttach" ng-if="messagePacket.type==='file'">
+                           <span class='attachment_name'>
+                           <i class="fa fa-file" aria-hidden="true"></i>{{messagePacket.message}}</span>
+                           <a href="/uploads/{{messagePacket.message}}" target="_self" download="/uploads/{{messagePacket.message}}"  title="Click to Download" data-toggle="download" >Download File</a>
+                        </div>
+                     </li>
+                  </ul>
+                  <ul class="message-thread" ng-if="data.selectedGroupId !== null ? true : false" ng-show="data.selectedGroupId !== null">
+				  
+				  
+                     <li ng-repeat="messageGroupPacket in data.groupmessages"
+                        ng-class="{ 'align-right' : alignMessage(messageGroupPacket.fromUserId) }" ng-if="messageGroupPacket.fromUserId !== 0 ? true : false" ng-show="messageGroupPacket.fromUserId !== 0">
+                        <span class="sender_name">{{messageGroupPacket.username}}</span>
+                        <p class="g_msg" ng-if="messageGroupPacket.type==='text'">{{messageGroupPacket.message}}</p>
+                        <div class="g_msgAttach" ng-if="messageGroupPacket.type==='file'">
+                           <span class='attachment_name'>
+                           <i class="fa fa-file" aria-hidden="true"></i>{{messageGroupPacket.message}}</span>
+                           <a href="/uploads/{{messageGroupPacket.message}}" target="_self" download="/uploads/{{messageGroupPacket.message}}"  title="Click to Download" data-toggle="download" >Download File</a>
+                        </div>
+                     </li>
+					 <li class="leftRoom" ng-repeat="messageGroupPacket in data.groupmessages"
+                         ng-if="messageGroupPacket.fromUserId == 0 ? true : false" ng-show="messageGroupPacket.fromUserId == 0">
+                        <p class="g_msg" >{{messageGroupPacket.message}}</p>
+                     </li>
+					 
+					 
+					 
+                  </ul>
+                  <ul class="message-thread" ng-if="data.selectedContactId !== null ? true : false" ng-show="data.selectedContactId !== null">
+                     <li ng-repeat="messagePacket in data.messages"
+                        ng-class="{ 'align-right' : alignMessage(messagePacket.fromUserId) } ">
+                        <p class="g_msg" ng-if="messagePacket.type==='text'">{{messagePacket.message}}</p>
+                        <div class="g_msgAttach" ng-if="messagePacket.type==='file'">
+                           <span class='attachment_name'>
+                           <i class="fa fa-file" aria-hidden="true"></i>{{messagePacket.message}}</span>
+                           <a href="/uploads/{{messagePacket.message}}" target="_self" download="/uploads/{{messagePacket.message}}"  title="Click to Download" data-toggle="download" >Download File</a>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+               <div class="message-text" ng-if="data.selectedFriendId !== null ? true : false" ng-show="data.selectedFriendId !== null" >
+			   <div ngf-drop  ng-model="files" class="drop-box ng-pristine ng-valid"
+                     ngf-drag-over-class="'dragover'"  ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+                     ngf-change="upload($file, $newFiles, $duplicateFiles, $event)"></div>
+                  <textarea id="message" 
+                     class="message form-control" 
+                     placeholder="Type and hit Enter" 
+                     ng-keydown="sendMessage($event)"
+                     ></textarea>
+                  <div class='sendMedia' ngf-select ng-model="files" 
+                     ngf-drag-over-class="'dragover'" 
+					 ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+					 ngf-change="upload($file, $newFiles, $duplicateFiles, $event)">
+					 <i class="fa fa-paperclip"></i></i></div>
+               </div>
+               <div class="message-text"  ng-if="data.selectedGroupId !== null ? true : false" ng-show="data.selectedGroupId !== null">
+			    <div ngf-drop  ng-model="files" class="drop-box ng-pristine ng-valid"
+                     ngf-drag-over-class="'dragover'"  ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+                     ngf-change="uploadGroup($file, $newFiles, $duplicateFiles, $event)"></div>
+                  <textarea id="groupmessage" 
+                     class="message form-control" 
+                     placeholder="Type and hit Enter" 
+                     ng-keydown="sendGroupMessage($event)"
+                     ></textarea>
+                  <div class='sendMedia' ngf-select ng-model="files" 
+                     ngf-drag-over-class="'dragover'"  ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+					 ngf-change="uploadGroup($file, $newFiles, $duplicateFiles, $event)">
+					 <i class="fa fa-paperclip"></i></i></div>
+               </div>
+               <div class="message-text"  ng-if="data.selectedContactId !== null ? true : false" ng-show="data.selectedContactId !== null">
+                  <div ngf-drop  ng-model="files" class="drop-box ng-pristine ng-valid"
+                     ngf-drag-over-class="'dragover'"  ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+                     ngf-change="upload($file, $newFiles, $duplicateFiles, $event)"></div>
+                  <textarea id="contactmessage" 
+                     class="message form-control" 
+                     placeholder="Type and hit Enter" 
+                     ng-keydown="sendContactMessage($event)"
+                     ></textarea>
+                  <div class='sendMedia' ngf-select ng-model="files" 
+                     ngf-allow-dir="true"
+                     accept="image/*,application/pdf,text/*,.csv,.docx,.doc" 
+                     ngf-pattern="'image/*,application/pdf,text/*,.csv,.docx,.doc'"
+                     ngf-change="upload($file, $newFiles, $duplicateFiles, $event)"><i class="fa fa-paperclip"></i></i></div>
+               </div>
+            </div>
+        </div>
+        <!-- Message Area Markup ends -->
+        <!-- Sidebar Area Markup start -->
+        <div class="col-md-4">
+            <div class="chat-list-container">
+               <div class="sidebar-header-widgets">
+                  <p class="btn btn-primary side_buttons" ng-click="active = 2" ><i class="fa fa-comments" aria-hidden="true"></i> <span >Chats</span> </p>
+                  <p class="btn btn-primary side_buttons" ng-click="active = 3"><i class="fa fa-group" aria-hidden="true"></i> <span >Contacts</span> <span ></span ></p>
+                  <p class="btn btn-primary side_buttons" ng-click="active = 4"><i class="fa fa-group" aria-hidden="true"></i> <span >Groups</span> <span ></span ></p>
+                  <p class="btn btn-primary side_buttons" ng-click="active = 5"><i class="fa fa-plus" aria-hidden="true"></i> <span >Create Group</span> </p>
+               </div>
+				<uib-tabset active="active">
+                  <!-- chats Tab starts -->
+					<uib-tab index="2">
+						<div class="chat-list">
+							<ul class="list-group" ng-if="data.chatlist.length > 0">
+							   <li class="list-group-item"
+								  ng-repeat="friend in data.chatlist"
+								  ng-click="selectFriendToChat(friend.id)"
+								  ng-class="{'active':friend.id == data.selectedFriendId}"
+								  >{{friend.username}}</li>
+							</ul>
+							<div class="alert alert-info" ng-if="data.chatlist.length === 0">
+							   <strong>No one is online to chat, ask someone to Login.</strong>
+							</div>
+						</div>
+					</uib-tab>
+                  <!-- Contacts Tab starts -->
+					<uib-tab index="3">
+						<div class="Contact-list">
+							<ul class="list-group" ng-if="data.contactlist.length > 0">
+							   <li class="list-group-item"
+								  ng-repeat="contacts in data.contactlist"
+								  ng-click="selectContactToChat(contacts.id)"
+								  ng-class="{'active':contacts.id == data.selectedContactId}"
+								  >{{contacts.username}}</li>
+							</ul>
+							<div class="alert alert-info" ng-if="data.contactlist.length === 0">
+							   <strong>No contact.</strong>
+							</div>
+						</div>
+					</uib-tab>
+                  <!-- Group Tab starts -->
+					<uib-tab index="4">
+						<div class="group-list">
+							<ul class="list-group" ng-if="data.grouplist.length > 0">
+							   <li class="list-group-item" 
+								  ng-repeat="groups in data.grouplist" 
+								  ng-click="selectGroupToChat(groups.id)"
+								  ng-class="{'active':groups.id == data.selectedGroupId}"
+								  >{{groups.group_name}} </li>
+							</ul>
+							<div class="alert alert-info" ng-if="data.grouplist.length === 0">
+							   <strong>No group available. </strong>
+							</div>
+						</div>
+					</uib-tab>
+                  <!-- Add Group Tab starts -->
+					<uib-tab index="5">
+						<div class="add_group">
+							<div class="form-group">
+							   <label for="groupname">Group Name</label>
+							   <input type="username" 
+								  class="form-control" 
+								  id="groupname" 
+								  placeholder="Enter Group Name"
+								  ng-model="data.group_name"
+								  >
+							</div>
+							<div class="form-group">
+							   <label for="username">Select Users to add</label>
+							   <select  class="custom-select" 
+							   ng-model="data.SelectedUsers" 
+							   id='addUsersGroup' multiple>
+								  <option ng-repeat="contacts in data.contactlist" 
+								  value="{{contacts.id}}" multiple="multiple"> {{contacts.username }} 
+								  </option>
+							   </select>
+							</div>
+							<button class="btn btn-primary"
+							ng-click="CreateGroup()">Create
+							</button>
+						</div>
+					</uib-tab><!-- Sidebar widget ends -->
+               </uib-tabset>
+            </div>
+		</div>
+	</div>
+	</div>
+</div>
+
+<!-- End of Confirmation Dialog -->
